@@ -1,0 +1,30 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata: 
+  name: visits-service
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: visits-service
+  template: 
+    metadata:
+      labels:
+        app: visits-service
+    spec: 
+      containers: 
+          - name: visits-service 
+            image: petclinic-visits-service:local 
+            imagePullPolicy: IfNotPresent
+            ports: 
+              - containerPort: 8080
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "200m"
+              limits:
+                memory: "512Mi" 
+                cpu: "500m"
+            env:
+            - name: JAVA_OPTS
+              value: "-XX:MaxRAMPercentage=75.0"
